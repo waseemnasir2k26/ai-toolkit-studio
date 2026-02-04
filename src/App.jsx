@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { ToastProvider } from './components/ui/Toast';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import Home from './pages/Home';
 import Admin from './pages/Admin';
 import PromptFlow from './components/tools/PromptFlow';
@@ -25,25 +26,27 @@ function NotFound() {
 
 function App() {
   return (
-    <ToastProvider>
-      <Router>
-        <div className="min-h-screen bg-dark-950 flex flex-col">
-          <Header />
-          <main className="flex-1">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/admin" element={<Admin />} />
-              <Route path="/tools/prompt-flow" element={<PromptFlow />} />
-              <Route path="/tools/n8n-visualizer" element={<N8nVisualizer />} />
-              <Route path="/tools/video-script" element={<VideoScriptGenerator />} />
-              <Route path="/tools/social-converter" element={<SocialConverter />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
-      </Router>
-    </ToastProvider>
+    <ErrorBoundary>
+      <ToastProvider>
+        <Router>
+          <div className="min-h-screen bg-dark-950 flex flex-col">
+            <Header />
+            <main className="flex-1">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/admin" element={<Admin />} />
+                <Route path="/tools/prompt-flow" element={<PromptFlow />} />
+                <Route path="/tools/n8n-visualizer" element={<N8nVisualizer />} />
+                <Route path="/tools/video-script" element={<VideoScriptGenerator />} />
+                <Route path="/tools/social-converter" element={<SocialConverter />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+        </Router>
+      </ToastProvider>
+    </ErrorBoundary>
   );
 }
 
