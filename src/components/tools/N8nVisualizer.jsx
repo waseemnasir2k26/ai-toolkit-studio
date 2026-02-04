@@ -172,7 +172,7 @@ export default function N8nVisualizer() {
   const [selectedNode, setSelectedNode] = useState(null);
   const [scale, setScale] = useState(1);
   const [copied, setCopied] = useState(false);
-  const { addToast } = useToast();
+  const toast = useToast();
 
   const parseWorkflow = useCallback(() => {
     setError(null);
@@ -199,19 +199,19 @@ export default function N8nVisualizer() {
       }));
 
       setWorkflow({ ...parsed, nodes: normalizedNodes });
-      addToast('Workflow parsed successfully!', 'success');
+      toast.success('Success', 'Workflow parsed successfully!');
     } catch (err) {
       setError(`JSON Parse Error: ${err.message}`);
-      addToast('Failed to parse workflow', 'error');
+      toast.error('Error', 'Failed to parse workflow');
     }
-  }, [jsonInput, addToast]);
+  }, [jsonInput, toast]);
 
   const loadSample = useCallback(() => {
     setJsonInput(JSON.stringify(sampleWorkflow, null, 2));
     setWorkflow(sampleWorkflow);
     setError(null);
-    addToast('Sample workflow loaded', 'info');
-  }, [addToast]);
+    toast.info('Loaded', 'Sample workflow loaded');
+  }, [toast]);
 
   const resetView = useCallback(() => {
     setScale(1);
@@ -223,9 +223,9 @@ export default function N8nVisualizer() {
       await navigator.clipboard.writeText(JSON.stringify(workflow, null, 2));
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-      addToast('JSON copied to clipboard', 'success');
+      toast.success('Copied', 'JSON copied to clipboard');
     }
-  }, [workflow, addToast]);
+  }, [workflow, toast]);
 
   const downloadSvg = useCallback(() => {
     if (!workflow) return;
@@ -240,9 +240,9 @@ export default function N8nVisualizer() {
       a.download = `${workflow.name || 'workflow'}.svg`;
       a.click();
       URL.revokeObjectURL(url);
-      addToast('SVG downloaded', 'success');
+      toast.success('Downloaded', 'SVG downloaded');
     }
-  }, [workflow, addToast]);
+  }, [workflow, toast]);
 
   // Build connections map
   const connections = useMemo(() => {

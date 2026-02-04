@@ -305,11 +305,11 @@ export default function VideoScriptGenerator() {
   const [script, setScript] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [expandedScenes, setExpandedScenes] = useState(new Set([1]));
-  const { addToast } = useToast();
+  const toast = useToast();
 
   const handleGenerate = useCallback(async () => {
     if (!topic.trim()) {
-      addToast('Please enter a video topic', 'error');
+      toast.error('Error', 'Please enter a video topic');
       return;
     }
 
@@ -318,13 +318,13 @@ export default function VideoScriptGenerator() {
       const result = await generateVideoScript(topic, style, duration, platform);
       setScript(result);
       setExpandedScenes(new Set([1]));
-      addToast('Video script generated!', 'success');
+      toast.success('Success', 'Video script generated!');
     } catch (error) {
-      addToast('Failed to generate script', 'error');
+      toast.error('Error', 'Failed to generate script');
     } finally {
       setIsGenerating(false);
     }
-  }, [topic, style, duration, platform, addToast]);
+  }, [topic, style, duration, platform, toast]);
 
   const toggleScene = (number) => {
     const newExpanded = new Set(expandedScenes);
@@ -387,7 +387,7 @@ ${scene.soraPrompt}
     a.download = `${script.title.replace(/\s+/g, '-').toLowerCase()}.md`;
     a.click();
     URL.revokeObjectURL(url);
-    addToast('Script exported!', 'success');
+    toast.success('Exported', 'Script exported!');
   };
 
   return (

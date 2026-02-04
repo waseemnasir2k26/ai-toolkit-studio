@@ -383,7 +383,7 @@ export default function SocialConverter() {
   const [conversions, setConversions] = useState(null);
   const [isConverting, setIsConverting] = useState(false);
   const [copied, setCopied] = useState(null);
-  const { addToast } = useToast();
+  const toast = useToast();
 
   const togglePlatform = (platformId) => {
     setSelectedPlatforms(prev =>
@@ -395,12 +395,12 @@ export default function SocialConverter() {
 
   const handleConvert = useCallback(async () => {
     if (!content.trim()) {
-      addToast('Please enter your post content', 'error');
+      toast.error('Error', 'Please enter your post content');
       return;
     }
 
     if (selectedPlatforms.length === 0) {
-      addToast('Please select at least one platform', 'error');
+      toast.error('Error', 'Please select at least one platform');
       return;
     }
 
@@ -408,19 +408,19 @@ export default function SocialConverter() {
     try {
       const result = await convertPost(content, tone, selectedPlatforms);
       setConversions(result);
-      addToast('Posts converted successfully!', 'success');
+      toast.success('Success', 'Posts converted successfully!');
     } catch (error) {
-      addToast('Conversion failed', 'error');
+      toast.error('Error', 'Conversion failed');
     } finally {
       setIsConverting(false);
     }
-  }, [content, tone, selectedPlatforms, addToast]);
+  }, [content, tone, selectedPlatforms, toast]);
 
   const handleCopy = async (platformId, text) => {
     await navigator.clipboard.writeText(text);
     setCopied(platformId);
     setTimeout(() => setCopied(null), 2000);
-    addToast('Copied to clipboard!', 'success');
+    toast.success('Copied', 'Copied to clipboard!');
   };
 
   const copyAll = async () => {
@@ -429,7 +429,7 @@ export default function SocialConverter() {
       .map(c => `--- ${c.platform.name} ---\n${c.content}`)
       .join('\n\n');
     await navigator.clipboard.writeText(allContent);
-    addToast('All posts copied!', 'success');
+    toast.success('Copied', 'All posts copied!');
   };
 
   return (
