@@ -6,7 +6,7 @@ import { createContext, useContext, useCallback } from 'react';
 
 const ToastContext = createContext(null);
 
-export function useToast() {
+function useToast() {
   const context = useContext(ToastContext);
   if (!context) {
     return {
