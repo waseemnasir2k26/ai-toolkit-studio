@@ -6,7 +6,6 @@ import {
   Linkedin,
   Instagram,
   Facebook,
-  Youtube,
   Copy,
   Check,
   RefreshCw,
