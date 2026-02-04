@@ -113,7 +113,7 @@ export function ShimmerButton({ children, className, ...props }) {
 }
 
 // Icon Button
-export function IconButton({ icon: Icon, className, variant = 'ghost', size = 'icon', ...props }) {
+export function IconButton({ icon: Icon, children, className, variant = 'ghost', size = 'icon', ...props }) {
   return (
     <Button
       variant={variant}
@@ -121,7 +121,7 @@ export function IconButton({ icon: Icon, className, variant = 'ghost', size = 'i
       className={cn('aspect-square', className)}
       {...props}
     >
-      <Icon className="w-5 h-5" />
+      {Icon ? <Icon className="w-5 h-5" /> : children}
     </Button>
   );
 }
