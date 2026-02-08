@@ -319,7 +319,7 @@ export default function VideoScriptGenerator() {
       setScript(result);
       setExpandedScenes(new Set([1]));
       toast.success('Success', 'Video script generated!');
-    } catch (error) {
+    } catch {
       toast.error('Error', 'Failed to generate script');
     } finally {
       setIsGenerating(false);
