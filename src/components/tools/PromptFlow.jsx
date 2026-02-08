@@ -409,11 +409,12 @@ export default function PromptFlow() {
           currentData = output;
           break;
 
-        case 'prompt':
+        case 'prompt': {
           const processedPrompt = node.content.replace(/\{\{input\}\}/gi, currentData);
           output = mockProcess(processedPrompt, currentData);
           currentData = output;
           break;
+        }
 
         case 'output':
           output = currentData;
