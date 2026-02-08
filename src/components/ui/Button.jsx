@@ -31,7 +31,6 @@ export const Button = forwardRef(({
   icon: Icon,
   iconPosition = 'left',
   className,
-  asChild = false,
   animated = true,
   ...props
 }, ref) => {
