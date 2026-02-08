@@ -139,20 +139,13 @@ function StatCard({ stat }) {
 
 // Prompt Template Editor Modal
 function PromptTemplateModal({ isOpen, onClose, template, onSave }) {
-  const [formData, setFormData] = useState(template || {
+  // Initialize with template or empty form - component remounts via key prop when template changes
+  const [formData, setFormData] = useState(() => template || {
     name: '',
     category: 'Content',
     prompt: '',
     description: '',
   });
-
-  useEffect(() => {
-    if (template) {
-      setFormData(template);
-    } else {
-      setFormData({ name: '', category: 'Content', prompt: '', description: '' });
-    }
-  }, [template]);
 
   const handleSave = () => {
     onSave({
@@ -597,8 +590,9 @@ export default function Admin() {
           </div>
         )}
 
-        {/* Template Modal */}
+        {/* Template Modal - key prop resets form state when template changes */}
         <PromptTemplateModal
+          key={editingTemplate?.id || 'new'}
           isOpen={isTemplateModalOpen}
           onClose={() => {
             setIsTemplateModalOpen(false);
