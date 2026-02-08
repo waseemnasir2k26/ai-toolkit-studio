@@ -117,8 +117,6 @@ const convertPost = async (content, tone, targetPlatforms) => {
 };
 
 const generatePlatformPost = (originalContent, tone, platform) => {
-  const words = originalContent.split(' ');
-  const mainIdea = originalContent.slice(0, 100);
 
   // Platform-specific transformations
   const transformations = {
@@ -131,7 +129,7 @@ const generatePlatformPost = (originalContent, tone, platform) => {
       }
       return {
         content: truncateText(post, 280),
-        thread: originalContent.length > 200 ? generateThread(originalContent, tone) : null,
+        thread: originalContent.length > 200 ? generateThread(originalContent) : null,
         suggestions: ['Add an image for 150% more engagement', 'Post between 8-10 AM or 6-9 PM', 'Reply to early comments quickly'],
       };
     },
@@ -165,7 +163,7 @@ const generatePlatformPost = (originalContent, tone, platform) => {
     },
 
     tiktok: () => {
-      const hook = generateViralHook(tone);
+      const hook = generateViralHook();
       return {
         content: `${hook}\n\n${truncateText(originalContent, 150)}\n\n#fyp #viral #trending`,
         suggestions: ['First 3 seconds determine if people stay', 'Use trending sounds', 'Post 1-3 times daily for growth'],
@@ -229,7 +227,7 @@ const generateHook = (tone, platform) => {
   return hooks[tone]?.[platform] || hooks.casual.twitter;
 };
 
-const generateViralHook = (tone) => {
+const generateViralHook = () => {
   const hooks = [
     'POV: you just discovered this',
     'Wait for it... 👀',
@@ -247,12 +245,12 @@ const generateHashtags = (content, count) => {
   return selected.map(h => `#${h}`).join(' ');
 };
 
-const generateThread = (content, tone) => {
+const generateThread = (content) => {
   const sentences = content.match(/[^.!?]+[.!?]+/g) || [content];
   const tweets = [];
   let current = '1/ ';
 
-  sentences.forEach((sentence, i) => {
+  sentences.forEach((sentence) => {
     if ((current + sentence).length > 270) {
       tweets.push(current.trim());
       current = `${tweets.length + 1}/ ${sentence}`;
@@ -408,7 +406,7 @@ export default function SocialConverter() {
       const result = await convertPost(content, tone, selectedPlatforms);
       setConversions(result);
       toast.success('Success', 'Posts converted successfully!');
-    } catch (error) {
+    } catch {
       toast.error('Error', 'Conversion failed');
     } finally {
       setIsConverting(false);
