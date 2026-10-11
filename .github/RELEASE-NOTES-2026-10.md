@@ -1,0 +1,4 @@
+- ai-toolkit-studio is a public Vite 7 + React 19 single-page app of free, browser-side AI tools for creators: Prompt Flow, n8n Visualizer, Social Converter and Video Script Generator, plus an Admin page. Tailwind v4, Framer Motion, Vercel SPA rewrites and security headers.
+- State: stable and unchanged in code since the last functional commit in February 2026; only the September release commit sits on top.
+- Re-reviewed October 2026: README, file tree and commit history re-read; documentation and version metadata only, no code changes. The README has no external links to verify.
+- Known gaps: no LICENSE; no tests and no CI; public/ holds only favicon.svg and vite.svg, so the og-image.png named in the Open Graph tags is still missing.
